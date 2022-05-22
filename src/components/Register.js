@@ -8,6 +8,26 @@ import { getAxiosConfig } from "../utils/getAxiosConfig";
 const Register = () => {
   const API_URL = process.env.API_URL;
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [dateOfEnrollment, setDateOfEnrollment] = useState("");
+  const [ppoNumber, setPpoNumber] = useState("");
+  const [panNumber, setPanNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobileNumber, SetMobileNumber] = useState("");
+  const [token, setToken] = useState("");
+  const [organisation, setOrganisation] = useState("");
+  const [employmentStatus, setEmploymentStatus] = useState("");
+  const [entitlementCategory, setEntitlementCategory] = useState("");
+  const [cardId, setCardId] = useState("");
+  // const [address , setAddresss] = useState("");
+  // const [address1 , setAddress1] = useState("");
+  // const [pinCode , setPinCode] = useState("");
+  // const [city , setCity] = useState("");
+  // const [state , setState] = useState("");
+
   const authState = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -15,10 +35,24 @@ const Register = () => {
     event.preventDefault();
 
     try {
-      const res = await axios(`${API_URL}/signup`, {
+      const res = await axios.post(`${API_URL}/signup`, {
         data: {
           name: username,
-          details: {},
+          password: password,
+          details: {
+            firstName: firstName,
+            lastName: lastName,
+            dateOfBirth: dateOfBirth,
+            dateOfEnrollment: dateOfEnrollment,
+            ppoNumber: ppoNumber,
+            panNumber: panNumber,
+            email: email,
+            mobileNumber: mobileNumber,
+            token: token,
+            organisation: organisation,
+            employmentStatus: employmentStatus,
+            entitlementCategory: entitlementCategory,
+          },
         },
         ...getAxiosConfig(authState.token),
       });
@@ -63,6 +97,8 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
@@ -72,6 +108,8 @@ const Register = () => {
               </span>
               <input
                 type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
@@ -85,6 +123,8 @@ const Register = () => {
               <input
                 type="text"
                 name="cardId"
+                value={cardId}
+                onChange={(e) => setCardId(e.target.value)}
                 placeholder="19 digit alphanumeric card ID"
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
@@ -96,6 +136,8 @@ const Register = () => {
               <input
                 type="text"
                 name="cardId"
+                value={panNumber}
+                onChange={(e) => setPanNumber(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500  sm:text-sm"
               />
             </label>
@@ -107,7 +149,11 @@ const Register = () => {
                 Employement Status
               </span>
 
-              <select className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm ">
+              <select
+                value={employmentStatus}
+                onChange={(e) => setEmploymentStatus(e.target.value)}
+                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm "
+              >
                 <option value="" selected disabled>
                   Select
                 </option>
@@ -125,7 +171,11 @@ const Register = () => {
                 Organization
               </span>
 
-              <select className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3  py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm ">
+              <select
+                value={organisation}
+                onChange={(e) => setOrganisation(e.target.value)}
+                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3  py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm "
+              >
                 <option value="" selected disabled>
                   Select
                 </option>
@@ -150,16 +200,20 @@ const Register = () => {
 
               <input
                 type="date"
+                value={dateOfBirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
 
             <label className="ml-4 flex grow items-center">
               <span className="mr-4 min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Date of Enrollment/Commissioning
+                Date of Enrollment
               </span>
               <input
                 type="date"
+                value={dateOfEnrollment}
+                onChange={(e) => setDateOfEnrollment(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
@@ -173,28 +227,34 @@ const Register = () => {
               <input
                 type="text"
                 name="cardId"
+                value={mobileNumber}
+                onChange={(e) => SetMobileNumber(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
                 placeholder="(10 digit Numeric)"
               />
             </label>
-            <label className="ml-4 flex grow items-center">
-              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Username
-              </span>
-              <input
-                type="text"
-                name="usernamae"
-                placeholder=""
-                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-              />
-            </label>
+
             <label className="ml-4 flex grow items-center">
               <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
                 Email
               </span>
               <input
                 type="email"
-                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+              />
+            </label>
+
+            <label className="ml-4 flex grow items-center">
+              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
+                Password
+              </span>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
@@ -202,45 +262,28 @@ const Register = () => {
 
           <div className="mt-8 flex items-center">
             <label className="flex grow items-center">
-              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Chip number on bill
-              </span>
-              <input
-                type="number"
-                name="cardId"
-                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-                placeholder="(16 digit Numeric)"
-              />
-            </label>
-            <label className="ml-4 flex grow items-center">
               <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
                 PPO/Discharge No.(ESM)
               </span>
               <input
                 type="number"
                 name="cardId"
-                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-              />
-            </label>
-          </div>
-
-          <div className="mt-8 flex items-center">
-            <label className="flex grow items-center">
-              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Date of retirement{" "}
-              </span>
-              <input
-                type="date"
+                value={ppoNumber}
+                onChange={(e) => setPpoNumber(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
               />
             </label>
 
             <label className="ml-4 flex grow items-center">
-              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
+              <span className="min-w-fit  text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
                 Entitlement Category
               </span>
 
-              <select className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3  py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm ">
+              <select
+                value={entitlementCategory}
+                onChange={(e) => setEntitlementCategory(e.target.value)}
+                className=" ml-2 w-full rounded-md border border-slate-300 bg-white px-3  py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm "
+              >
                 <option value="" selected disabled>
                   Select
                 </option>
@@ -250,6 +293,8 @@ const Register = () => {
               </select>
             </label>
           </div>
+
+          <div className="mt-8 flex items-center"></div>
 
           <input
             type="submit"
