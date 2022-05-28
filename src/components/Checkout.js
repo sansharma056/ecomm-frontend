@@ -1,7 +1,7 @@
 import { RefreshIcon } from "@heroicons/react/solid";
 import axios from "axios";
 import { useEffect, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import { getAxiosConfig } from "../utils/getAxiosConfig";
 import { AuthContext } from "../contexts/authContext";
@@ -9,13 +9,43 @@ import Loading from "./Loading";
 
 const Checkout = () => {
   const API_URL = process.env.API_URL;
+  const navigate = useNavigate();
 
   const authState = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [cart, setCart] = useState([]);
   const [total, setTotal] = useState(0);
 
-  async function handleSumbit() {
+  async function handleSumbit(event) {
+    event.preventDefault();
     setLoading(true);
+
+    try {
+      const res = await axios.post(
+        `${API_URL}/order`,
+        {
+          cart,
+          address: {
+            street,
+            city,
+            state,
+            pincode,
+          },
+        },
+        getAxiosConfig(authState.token)
+      );
+
+      if (res.status === 200) {
+        navigate("/orders");
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     setLoading(false);
   }
@@ -29,6 +59,7 @@ const Checkout = () => {
       );
 
       if (res.status === 200) {
+        setCart(res.data.items);
         setTotal(
           res.data.items.reduce(
             (prev, cur) => prev + cur.quantity * cur.product.details.price,
@@ -64,7 +95,7 @@ const Checkout = () => {
             placeholder="Card Number"
           />
           <input
-            type="text"
+            type="email"
             className="focus:shadow-outline mt-2 w-full appearance-none rounded border py-2 px-3 text-sm leading-tight text-gray-700 shadow focus:outline-none"
             placeholder="Email"
           />
@@ -72,21 +103,29 @@ const Checkout = () => {
             type="text"
             className="focus:shadow-outline mt-2 w-full appearance-none rounded border py-2 px-3 text-sm leading-tight text-gray-700 shadow focus:outline-none"
             placeholder="Street"
+            value={street}
+            onChange={(event) => setStreet(event.target.value)}
           />
           <input
             type="text"
             className="focus:shadow-outline mt-2 w-full appearance-none rounded border py-2 px-3 text-sm leading-tight text-gray-700 shadow focus:outline-none"
             placeholder="City"
+            value={city}
+            onChange={(event) => setCity(event.target.value)}
           />
           <input
             type="text"
             className="focus:shadow-outline mt-2 w-full appearance-none rounded border py-2 px-3 text-sm leading-tight text-gray-700 shadow focus:outline-none"
             placeholder="State"
+            value={state}
+            onChange={(event) => setState(event.target.value)}
           />
           <input
             type="text"
             className="focus:shadow-outline mt-2 w-full appearance-none rounded border py-2 px-3 text-sm leading-tight text-gray-700 shadow focus:outline-none"
             placeholder="Pin Code"
+            value={pincode}
+            onChange={(event) => setPincode(event.target.value)}
           />
         </div>
         <div className="w-96">
