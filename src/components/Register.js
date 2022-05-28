@@ -1,9 +1,7 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/authContext";
 import Header from "./Header";
-import { getAxiosConfig } from "../utils/getAxiosConfig";
 
 const Register = () => {
   const API_URL = process.env.API_URL;
@@ -17,18 +15,10 @@ const Register = () => {
   const [panNumber, setPanNumber] = useState("");
   const [email, setEmail] = useState("");
   const [mobileNumber, SetMobileNumber] = useState("");
-  const [token, setToken] = useState("");
-  const [organisation, setOrganisation] = useState("");
+  const [organization, setOrganization] = useState("");
   const [employmentStatus, setEmploymentStatus] = useState("");
   const [entitlementCategory, setEntitlementCategory] = useState("");
-  const [cardId, setCardId] = useState("");
-  // const [address , setAddresss] = useState("");
-  // const [address1 , setAddress1] = useState("");
-  // const [pinCode , setPinCode] = useState("");
-  // const [city , setCity] = useState("");
-  // const [state , setState] = useState("");
 
-  const authState = useContext(AuthContext);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -36,25 +26,21 @@ const Register = () => {
 
     try {
       const res = await axios.post(`${API_URL}/signup`, {
-        data: {
-          name: username,
-          password: password,
-          details: {
-            firstName: firstName,
-            lastName: lastName,
-            dateOfBirth: dateOfBirth,
-            dateOfEnrollment: dateOfEnrollment,
-            ppoNumber: ppoNumber,
-            panNumber: panNumber,
-            email: email,
-            mobileNumber: mobileNumber,
-            token: token,
-            organisation: organisation,
-            employmentStatus: employmentStatus,
-            entitlementCategory: entitlementCategory,
-          },
+        name: username,
+        password,
+        details: {
+          firstName,
+          lastName,
+          dateOfBirth: new Date(dateOfBirth).toISOString(),
+          dateOfEnrollment: new Date(dateOfEnrollment).toISOString(),
+          ppoNumber,
+          panNumber,
+          email,
+          mobileNumber,
+          organization,
+          employmentStatus: employmentStatus,
+          entitlementCategory: entitlementCategory,
         },
-        ...getAxiosConfig(authState.token),
       });
 
       if (res.status === 200) {
@@ -118,17 +104,18 @@ const Register = () => {
           <div className="mt-8 flex items-center">
             <label className="flex grow items-center">
               <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Card Id
+                Mobile Number
               </span>
               <input
                 type="text"
                 name="cardId"
-                value={cardId}
-                onChange={(e) => setCardId(e.target.value)}
-                placeholder="19 digit alphanumeric card ID"
+                value={mobileNumber}
+                onChange={(e) => SetMobileNumber(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
+                placeholder="(10 digit Numeric)"
               />
             </label>
+
             <label className="ml-4 block flex grow items-center">
               <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
                 Pan No.
@@ -172,14 +159,14 @@ const Register = () => {
               </span>
 
               <select
-                value={organisation}
-                onChange={(e) => setOrganisation(e.target.value)}
+                value={organization}
+                onChange={(e) => setOrganization(e.target.value)}
                 className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3  py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm "
               >
                 <option value="" selected disabled>
                   Select
                 </option>
-                <option value="Servicemen">Army</option>
+                <option value="ARMY">Army</option>
                 <option value="AIR_FORCE">Air Force</option>
                 <option value="NAVY">Navy</option>
                 <option value="COAST_GUARD">Coast Guard</option>
@@ -221,20 +208,6 @@ const Register = () => {
 
           <div className="mt-8 flex items-center">
             <label className="flex grow items-center">
-              <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
-                Mobile Number
-              </span>
-              <input
-                type="text"
-                name="cardId"
-                value={mobileNumber}
-                onChange={(e) => SetMobileNumber(e.target.value)}
-                className="ml-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 placeholder-slate-400 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-1 focus:ring-sky-500 sm:text-sm"
-                placeholder="(10 digit Numeric)"
-              />
-            </label>
-
-            <label className="ml-4 flex grow items-center">
               <span className="min-w-fit text-sm font-medium text-slate-700 after:ml-0.5 after:text-red-500 after:content-['*']">
                 Email
               </span>
