@@ -35,16 +35,20 @@ const Orders = () => {
     <>
       <h1 className="mt-8 text-3xl font-bold">Orders</h1>
       <div className="mt-4 flex flex-col items-center space-y-4">
-        {orders.map((order) => (
-          <OrderCard
-            key={order.id}
-            id={order.id}
-            purchasedAt={order.purchasedAt}
-            orderLines={order.orderLines}
-            orderStatus={order.orderStatus}
-            address={order.address}
-          />
-        ))}
+        {orders.length > 0 ? (
+          orders.map((order) => (
+            <OrderCard
+              key={order.id}
+              id={order.id}
+              purchasedAt={order.purchasedAt}
+              orderLines={order.orderLines}
+              orderStatus={order.orderStatus}
+              address={order.address}
+            />
+          ))
+        ) : (
+          <p>You&amp;ve no orders.</p>
+        )}
       </div>
     </>
   );
