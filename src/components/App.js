@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthContext } from "../contexts/authContext";
+import Account from "./Account";
 import Cart from "./Cart";
 import Categories from "./Categories";
 import Checkout from "./Checkout";
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/account" element={<Account />} />
           </Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
