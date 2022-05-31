@@ -47,7 +47,7 @@ const Orders = () => {
             />
           ))
         ) : (
-          <p>You&amp;ve no orders.</p>
+          <p>You&apos;ve no orders.</p>
         )}
       </div>
     </>
